@@ -1,0 +1,23 @@
+<launch>
+	<group ns="myturtle">
+		<node 
+			pkg="turtlesim" 			
+			type="turtlesim_node"
+			name="node_turtle" 
+
+		 />
+		<node 
+			pkg="rqt_plot"
+			type="rqt_plot"
+			name="node_graph" 
+			args="/myturtle/turtle1/pose/x /myturtle/turtle1/pose/y /myturtle/turtle1/pose/theta"
+		/>
+	 </group>
+	<group ns="turtle_changed_color">
+		<rosparam
+			command="load"
+			file="$(find turtlesim_test)/params_orange"
+		/>
+	</group>
+
+</launch>
