@@ -1,0 +1,17 @@
+<launch>
+    <node
+        pkg="turtlesim"
+        type="turtlesim_node"
+        name="my_turtle"
+    />
+    <node
+        pkg="turtlesim_control"
+        type="send_random_goal.py"
+        name="send_goal"
+    />
+    <node
+        pkg="turtlesim_control"
+        type="move2goal.py"
+        name="move2goal"
+    />
+</launch>
