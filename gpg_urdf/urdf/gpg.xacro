@@ -28,13 +28,13 @@
                 <cylinder radius="${radius_wheel}" length="${width_wheel}"/>
             </geometry>
              <material name="yellow"/>
-            <origin rpy="0.0 ${pi/2} 0.0" xyz="0.0 0.0 0.0"/>
+            <origin rpy="0.0 ${pi/2}  0.0" xyz="0.0 0.0 0.0"/>
         </visual>
         <collision>
             <geometry>
                 <cylinder radius="${radius_wheel}" length="${width_wheel}"/>                
             </geometry>
-            <origin rpy="0.0 ${pi/2} 0.0" xyz="0.0 0.0 0.0"/>            
+            <origin rpy="${pi/2} 0.0 0.0" xyz="0.0 0.0 0.0"/>            
         </collision>
         <xacro:default_inertia mass="1.0"/>
     </link>
@@ -64,7 +64,7 @@
     <joint name="${preffix}_wheel_to_base_link" type="continuous">
         <parent link="base_link"/>
         <child  link="${preffix}_wheel"/>
-        <origin xyz="${orientation*(radius_base+(width_wheel/2))} 0.0 ${radius_wheel}" rpy="0.0 0.0 ${pi}"/>
+        <origin xyz="0.0 ${orientation*(radius_base+(width_wheel/2))} ${radius_wheel}" rpy="0.0 0.0 ${pi/2}"/>
         <axis xyz="1.0 0.0 0.0"/>
     </joint>
 </xacro:macro>
@@ -92,7 +92,7 @@
 <joint name="counter_weight_to_base_link" type="fixed">
     <parent link="base_link"/>
     <child  link="counter_weight"/>
-    <origin xyz="0.0 ${-1*radius_base/2} ${radius_wheel - width_base/2 - counter_weight_radius}"/>
+    <origin xyz="${-1*radius_base/2}  0.0 ${radius_wheel - width_base/2 - counter_weight_radius}"/>
     <axis xyz="1.0 0.0 0.0"/>
 </joint>
 <link name="counter_weight">
@@ -121,7 +121,7 @@
 <joint name="camera_link_to_base_link" type="revolute">
     <parent link="base_link"/>
     <child  link="camera_link"/>
-    <origin xyz="0.0 ${radius_base} ${camera_height}" rpy="${-1*pi/2} 0.0 0.0"/>
+    <origin xyz="${radius_base} 0.0 ${camera_height}" rpy="${-1*pi/2} 0.0 ${-1*pi/2}"/>
     <axis xyz="0.0 1.0 0.0"/>
     <limit lower="${-1*0/2}" upper="${0/2}" effort="1000" velocity="1.0"/>
 </joint>
@@ -140,61 +140,60 @@
         <origin rpy="0.0 0.0 0.0" xyz="0.0 0.0 0.0"/>            
     </collision>
     <xacro:default_inertia mass="1.0"/>
-    <transmission name= "servo_trans">
-        <type>
-             transmission_interface/SimpleTransmisssion
-        </type>
-        <actuator name="servo_motor">
-            <mechanicalReduction>
-                1.0
-            </mechanicalReduction>
-        </actuator>
-        <joint name="camera_link_to_base_link" >
-            <hardwareInterface>
-                hardware_interface/PositionJointInterface
-            </hardwareInterface>
-        </joint>
-    </transmission>
-    <!-- Gazebo -->
-    <gazebo reference="camera_link">
-        <sensor name="camera_1" type="camera" update_rate="30.0">
-        <parent link="camera_link"/>
-        <origin xyz="0.0 0.0 0.0" rpy="0.0 0.0 0.0"/>
-        <camera>
-        <image width="320" height="240" hfov="0.915" format="RGB8" near="0.01" far="50.0"/>
-        </camera>
-        <!-- Sensor camera -->
-        <plugin name="camera_controller" filename="libgazebo_ros_camera.so">
-            <alwaysOn>
-                true
-            </alwaysOn>
-            <updateRate>
-                30.0
-            </updateRate>
-            <cameraName>
-                gpg
-            </cameraName>
-            <imageTopicName> 
-                image
-            </imageTopicName>
-            <cameraInfoTopicName>
-                camera_info
-            </cameraInfoTopicName>
-            <frameName>
-                camera_link
-            </frameName>
-            <hackBaseline>
-                0.0
-            </hackBaseline>
-            <distortionK1>0.0809380</distortionK1>
-            <distortionK2>-0.257429</distortionK2>
-            <distortionK3>0.0</distortionK3>
-            <distortionT1>-0.002955</distortionT1>
-            <distortionT2>0.003629</distortionT2>
-        </plugin>
-        </sensor>        
-    </gazebo>
 </link>
+<transmission name= "servo_trans">
+    <type>
+         transmission_interface/SimpleTransmisssion
+    </type>
+    <actuator name="servo_motor">
+        <mechanicalReduction>
+            1.0
+        </mechanicalReduction>
+    </actuator>
+    <joint name="camera_link_to_base_link" >
+        <hardwareInterface>
+            hardware_interface/PositionJointInterface
+        </hardwareInterface>
+    </joint>
+</transmission>
+<!-- Gazebo -->
+<gazebo reference="camera_link">
+    <sensor name="camera_1" type="camera" update_rate="30.0">
+    <origin xyz="0.0 0.0 0.0" rpy="0.0 0.0 0.0"/>
+    <camera>
+    <image width="320" height="240" hfov="0.915" format="RGB8" near="0.01" far="50.0"/>
+    </camera>
+    <!-- Sensor camera -->
+    <plugin name="camera_controller" filename="libgazebo_ros_camera.so">
+        <alwaysOn>
+            true
+        </alwaysOn>
+        <updateRate>
+            30.0
+        </updateRate>
+        <cameraName>
+            gpg
+        </cameraName>
+        <imageTopicName> 
+            image
+        </imageTopicName>
+        <cameraInfoTopicName>
+            camera_info
+        </cameraInfoTopicName>
+        <frameName>
+            camera_link
+        </frameName>
+        <hackBaseline>
+            0.0
+        </hackBaseline>
+        <distortionK1>0.0809380</distortionK1>
+        <distortionK2>-0.257429</distortionK2>
+        <distortionK3>0.0</distortionK3>
+        <distortionT1>-0.002955</distortionT1>
+        <distortionT2>0.003629</distortionT2>
+    </plugin>
+    </sensor>        
+</gazebo>
 <!-- ros_control plugin-->
 <gazebo>
     <plugin name="gazebo_ros_control" filename="libgazebo_ros_control.so">

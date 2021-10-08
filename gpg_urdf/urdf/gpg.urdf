@@ -24,7 +24,7 @@
     <joint name="right_wheel_to_base_link" type="revolute">
         <parent link="base_link"/>
         <child  link="right_wheel"/>
-        <origin xyz="0.085 0.0 0.0375" rpy="0.0 0.0 3.14"/>
+        <origin xyz="0.0 0.085 0.0375" rpy="0.0 0.0 0.0"/>
         <axis xyz="1.0 0.0 0.0"/>
         <limit lower="0.0" upper="6.28" effort="300" velocity="1"/>
     </joint>
@@ -36,13 +36,13 @@
              <material name="black">
                  <color rgba="1 1 0 1" />
             </material>
-            <origin rpy="0.0 1.57075 0.0" xyz="0.0 0.0 0.0"/>
+            <origin rpy="1.57075 0.0 0.0" xyz="0.0 0.0 0.0"/>
         </visual>
         <collision>
             <geometry>
                 <cylinder radius="0.0375" length="0.02"/>
             </geometry>
-            <origin rpy="0.0 1.57075 0.0" xyz="0.0 0.0 0.0"/>
+            <origin rpy="1.57075 0.0 0.0" xyz="0.0 0.0 0.0"/>
         </collision>
         <inertial>
             <mass value="1.0"/>
@@ -52,7 +52,7 @@
     <joint name="left_wheel_to_base_link" type="revolute">
         <parent link="base_link"/>
         <child  link="left_wheel"/>
-        <origin xyz="-0.085 0.0 0.0375" rpy="0.0 0.0 3.14"/>
+        <origin xyz=" 0.0 -0.085 0.0375" rpy="0.0 0.0 0.0"/>
         <axis xyz="1.0 0.0 0.0"/>
         <limit lower="0.0" upper="6.28" effort="300" velocity="1"/>
     </joint>
@@ -64,13 +64,13 @@
              <material name="black">
                  <color rgba="1 1 0 1" />
             </material>
-            <origin rpy="0.0 1.57075 0.0" xyz="0.0 0.0 0.0"/>
+            <origin rpy="1.57075 0.0 0.0" xyz="0.0 0.0 0.0"/>
         </visual>
         <collision>
             <geometry>
                 <cylinder radius="0.0375" length="0.02"/>
             </geometry>
-            <origin rpy="0.0 1.57075 0.0" xyz="0.0 0.0 0.0"/>
+            <origin rpy="1.5707 0.0 0.0" xyz="0.0 0.0 0.0"/>
         </collision>
         <inertial>
             <mass value="1.0"/>
@@ -80,7 +80,7 @@
     <joint name="counter_weight_to_base_link" type="fixed">
         <parent link="base_link"/>
         <child  link="counter_weight"/>
-        <origin xyz="0.0 -0.03 0.02"/>
+        <origin xyz="-0.03 0.0 0.02"/>
         <axis xyz="1.0 0.0 0.0"/>
     </joint>
     <link name="counter_weight">
@@ -107,7 +107,7 @@
     <joint name="camera_link_to_base_link" type="revolute">
         <parent link="base_link"/>
         <child  link="camera_link"/>
-        <origin xyz="0.0 0.075 0.065" rpy="-1.57075 0.0 0.0"/>
+        <origin xyz="0.075 0.0 0.065" rpy="-1.57075 0.0 -1.57075"/>
         <axis xyz="0.0 1.0 0.0"/>
         <limit lower="-0.5235" upper="0.5235" effort="300" velocity="1"/>
     </joint>

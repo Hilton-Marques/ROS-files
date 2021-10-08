@@ -12,7 +12,7 @@
     </node>
 
     <node name="controller_spawner" pkg="controller_manager" type="spawner" respawn="false"
-      output="screen" args="--shutdown-timeout 1 mobile_base_controller joint_state_controller "/>
+      output="screen" args="--shutdown-timeout 1 mobile_base_controller joint_state_controller servo_controller "/>
   </group>
 
   <node name="rviz_teleop" pkg="rviz" type="rviz" respawn="false"

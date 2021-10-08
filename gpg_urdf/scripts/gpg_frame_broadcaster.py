@@ -10,7 +10,6 @@ from geometry_msgs.msg import PoseStamped
 
 
 def handle_gpg_pose(msg):
-    br = tf2_ros.TransformBroadcaster()
     t = geometry_msgs.msg.TransformStamped()
 
     t.header.stamp = rospy.Time.now()
@@ -30,6 +29,7 @@ def handle_gpg_pose(msg):
 
 if __name__ == '__main__':
     rospy.init_node('gpg_broadcaster')
+    br = tf2_ros.TransformBroadcaster()
     rospy.Subscriber('/robot_pose',
                      PoseStamped,handle_gpg_pose)
     rate = rospy.Rate(50)               

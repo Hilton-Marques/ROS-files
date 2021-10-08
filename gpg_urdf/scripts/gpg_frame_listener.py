@@ -14,8 +14,9 @@ goal = None
 def GetGoal(msg):
     #goal_pose = rospy.wait_for_message("/goal", Pose2D)
     global goal
-    goal = PointStamped()
-    goal.header.stamp = rospy.Time.now()
+    if (goal is None):
+        goal = PointStamped()
+    goal.header.stamp = rospy.Time()
     goal.header.frame_id = "world" # turtle1
     goal.point.x = msg.x
     goal.point.y = msg.y
@@ -31,23 +32,25 @@ if __name__ == '__main__':
     listener = tf2_ros.TransformListener(tfBuffer)
     rate = rospy.Rate(50.0)
     pub = rospy.Publisher('/gpg/mobile_base_controller/cmd_vel' ,Twist, queue_size=100)  
-    while not rospy.is_shutdown():
-        if (goal == None):
+    while (not rospy.is_shutdown()):
+        if (goal is None):
+            rate.sleep()
             continue
         try:
+            #rospy.logwarn(goal)
             trans = tfBuffer.transform(goal, 'gpg')
-            print(trans)
         except (tf2_ros.LookupException, tf2_ros.ConnectivityException, tf2_ros.ExtrapolationException):
             rate.sleep()
             continue
+        rate.sleep()
         sent_msg = Twist()
         norm = hypot(trans.point.x, trans.point.y)
         angle = atan2(trans.point.y, trans.point.x)   
-        sent_msg.linear.x = 0.8*norm
+        sent_msg.linear.x = 0.5*0
         sent_msg.linear.y = 0
         sent_msg.linear.z = 0
 
-        sent_msg.angular.z = 1.5*angle
+        sent_msg.angular.z = 1.5*0
         sent_msg.angular.x = 0
         sent_msg.angular.y = 0
 
@@ -59,6 +62,6 @@ if __name__ == '__main__':
         if (norm < 0.01):
             goal = None
             rospy.sleep(1)
-            rospy.logwarn('Get new goal')
-        rate.sleep()
+            #rospy.logwarn('Get new goal')
+        
 
